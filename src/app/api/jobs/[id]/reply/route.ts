@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     try {
         const session = await auth();
         if (!session || !session.user) {
@@ -27,7 +28,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             data: {
                 message,
                 quote: quote ? parseFloat(quote) : null,
-                jobId: params.id,
+                jobId: id,
                 senderId: userId,
             },
         });
