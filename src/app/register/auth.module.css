@@ -1,0 +1,52 @@
+.authPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top right, #1e293b, #020617);
+    padding: 1rem;
+}
+
+.authCard {
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+}
+
+.authCard h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.875rem;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+}
+
+.errorMessage {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    font-size: 0.875rem;
+}
+
+.successMessage {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    font-size: 0.875rem;
+}
+
+.footerLink {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}

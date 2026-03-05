@@ -1,0 +1,164 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  SHOPKEEPER
+  CARPENTER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          Role      @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Shopkeeper specific
+  shop          Shop?
+  
+  // Carpenter specific
+  carpenter     CarpenterProfile?
+
+  // Shared
+  reviewsGiven  Review[]   @relation("ReviewsGiven")
+  jobsPosted    Job[]      @relation("CustomerJobs")
+  jobReplies    JobReply[] @relation("UserJobReplies")
+}
+
+model Shop {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  introVideoUrl String?
+  ownerId       String    @unique
+  owner         User      @relation(fields: [ownerId], references: [id])
+  products      Product[]
+  reviews       Review[]  @relation("ShopReviews")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  quality     String?
+  price         Float
+  videoUrl      String?
+  brand         String?
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  subCategoryId String?
+  subCategory   SubCategory? @relation(fields: [subCategoryId], references: [id])
+  shopId        String
+  shop          Shop         @relation(fields: [shopId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model CarpenterProfile {
+  id            String      @id @default(cuid())
+  experience    String?
+  bio           String?
+  userId        String      @unique
+  user          User        @relation(fields: [userId], references: [id])
+  portfolio     PortfolioItem[]
+  jobsTaken     Job[]       @relation("CarpenterJobs")
+  reviews       Review[]    @relation("CarpenterReviews")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model PortfolioItem {
+  id          String           @id @default(cuid())
+  title       String
+  description String?
+  mediaUrl    String           // Photo or Video URL
+  mediaType   String           // "IMAGE" or "VIDEO"
+  profileId   String
+  profile     CarpenterProfile @relation(fields: [profileId], references: [id])
+  createdAt   DateTime         @default(now())
+}
+
+model Job {
+  id              String            @id @default(cuid())
+  title           String
+  description     String
+  requirements    String?           // Detailed specs
+  status          String            @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED
+  customerId      String
+  customer        User              @relation("CustomerJobs", fields: [customerId], references: [id])
+  carpenterId     String?
+  carpenter       CarpenterProfile? @relation("CarpenterJobs", fields: [carpenterId], references: [id])
+  mediaUrl        String?
+  mediaType       String?
+  replies         JobReply[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  review          Review?
+}
+
+model JobReply {
+  id          String   @id @default(cuid())
+  message     String
+  quote       Float?
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id])
+  senderId    String
+  sender      User     @relation("UserJobReplies", fields: [senderId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id            String         @id @default(cuid())
+  name          String         @unique
+  subCategories SubCategory[]
+  products      Product[]
+  createdAt     DateTime       @default(now())
+}
+
+model SubCategory {
+  id          String    @id @default(cuid())
+  name        String
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  products    Product[]
+  createdAt   DateTime  @default(now())
+
+  @@unique([name, categoryId])
+}
+
+
+model Review {
+  id          String            @id @default(cuid())
+  rating      Int
+  comment     String?
+  reviewerId  String
+  reviewer    User              @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  
+  // Link to the job being reviewed
+  jobId       String?           @unique
+  job         Job?              @relation(fields: [jobId], references: [id])
+
+  // Target of the review (One of these will be set)
+  shopId      String?
+  shop        Shop?             @relation("ShopReviews", fields: [shopId], references: [id])
+  carpenterId String?
+  carpenter   CarpenterProfile? @relation("CarpenterReviews", fields: [carpenterId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
+
