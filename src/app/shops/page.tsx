@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -42,7 +43,9 @@ export default async function ShopsPage({
                 <p>Find the best materials and trusted sellers.</p>
             </header>
 
-            <ShopSearch />
+            <Suspense fallback={<div>Loading search...</div>}>
+                <ShopSearch />
+            </Suspense>
 
             <div className="shop-grid">
                 {view === "shops" ? (
