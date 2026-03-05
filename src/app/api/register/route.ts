@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { Role } from "@prisma/client";
 
 export async function POST(req: Request) {
     try {
@@ -26,7 +25,7 @@ export async function POST(req: Request) {
                 email,
                 password: hashedPassword,
                 name,
-                role: role as Role,
+                role: role as any,
             },
         });
 
