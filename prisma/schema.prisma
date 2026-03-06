@@ -162,3 +162,13 @@ model Review {
   createdAt   DateTime @default(now())
 }
 
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  message   String
+  source    String?
+  createdAt DateTime @default(now())
+}
+
