@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import styles from "./landing.module.css";
 
+
 export default async function Home() {
   const session = await auth();
 
@@ -51,6 +52,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+	
     </main>
+
   );
 }
