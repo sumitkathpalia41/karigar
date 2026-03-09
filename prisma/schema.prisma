@@ -6,9 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("KARIGAR_DB_PRISMA_URL")
+  provider = "postgresql"
+  url      = env("KARIGAR_DB_PRISMA_DATABASE_URL")
 }
+
 
 enum Role {
   CUSTOMER
