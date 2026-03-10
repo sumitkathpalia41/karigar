@@ -5,6 +5,7 @@ import Link from "next/link";
 
 
 export default async function ShopDetails({ params }: { params: { id: string } }) {
+
   // Await params in Next.js 15+
   const resolvedParams = await params;
   const session = await auth();
