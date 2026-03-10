@@ -5,8 +5,8 @@ import Link from "next/link";
 
 
 export default async function ShopDetails({ params }: { params: { id: string } }) {
-    const session = await auth();
-    const userId = (session?.user as any)?.id;
+  //const session = await auth();
+  //const userId = (session?.user as any)?.id;
   // Await params in Next.js 15+
   const resolvedParams = await params;
   const session = await auth();
