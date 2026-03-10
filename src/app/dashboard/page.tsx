@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+
+
 export default function Dashboard() {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -99,7 +101,7 @@ export default function Dashboard() {
                             <Link href="/carpenters/profile/edit" className="dash-card glass-card">
                                 <h3>Edit Portfolio</h3>
                                 <p>Update your photos and experience videos.</p>
-                            </Link>
+                            </Link href="/carpenters/reviews">
                             <div className="dash-card glass-card">
                                 <h3>Reviews</h3>
                                 <p>See what customers are saying about you.</p>
