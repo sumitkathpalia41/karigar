@@ -101,7 +101,7 @@ export default function Dashboard() {
                             <Link href="/carpenters/profile/edit" className="dash-card glass-card">
                                 <h3>Edit Portfolio</h3>
                                 <p>Update your photos and experience videos.</p>
-                            </Link href="/carpenters/reviews className="dash-card glass-card">
+                            <Link href="/carpenters/reviews className="dash-card glass-card">
                             
                                 <h3>Reviews</h3>
                                 <p>See what customers are saying about you.</p>
